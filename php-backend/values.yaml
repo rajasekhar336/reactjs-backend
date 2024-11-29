@@ -1,33 +1,25 @@
-# Backend application settings
 image:
-  repository: "075884725528.dkr.ecr.ap-south-1.amazonaws.com/react-php/backend"
-  tag: "latest"
-
-serviceAccount:
-  create: true  # Set to true to create the ServiceAccount
-  automount: false  # Optional: control token mounting
+  repository: 075884725528.dkr.ecr.ap-south-1.amazonaws.com/react-php/backend
+  tag: latest
 
 service:
-  type: LoadBalancer  # Exposes the backend via a LoadBalancer
+  type: NodePort
   port: 80
-  targetPort: 80
 
 ingress:
   enabled: true
-  host: "backend.cloudraja.freeddns.org"  # Backend URL
-  path: /
-  annotations: {}
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+  hosts:
+    - host: backend.cloudraja.freeddns.org
+      paths:
+        - path: /
+          pathType: Prefix
 
-resources: 
-  limits: 
-    cpu: "1"
-    memory: "1Gi"
-  requests:
-    cpu: "500m"
-    memory: "512Mi"
-
-# Optional: If you need any environment variables or configmaps
-env:
-  - name: BACKEND_URL
-    value: "https://backend.cloudraja.freeddns.org"
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
 
