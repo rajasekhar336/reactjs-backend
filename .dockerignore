@@ -1,0 +1,21 @@
+# Ignore vendor directory (Composer dependencies)
+vendor/
+
+# Ignore Dockerfile (if not required inside the image)
+Dockerfile
+
+# Ignore .git directory
+.git/
+
+# Ignore environment variables file
+.env
+
+# Ignore temporary files created by editors
+*.swp
+*.swo
+.vscode/
+
+# Ignore composer.lock (if you don't want to include it in the image)
+composer.lock
+Jenkinsfile
+php-backend/
